@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  node-container:
+    container_name: api
+    image: node:16-buster
+    user: 'node:node'
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/app
+    working_dir: '/app'
+    command: ["/bin/bash"]
