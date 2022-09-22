@@ -13,8 +13,36 @@ import fs from "fs";
         
         const page = await got.get("http://dividendobr.com/tabex.php");
         const $ = cheerio.load(page.body)
-        const lines = $("table", "#dilist" )
-        console.log($(lines).text())
+        const tables = $("table", "#dilist" )
+        
+        type dividend = {
+            company: string;
+            date: string;
+            type: string;
+            exDate: string;
+            paymentDate: string;
+            value: string
+        }
+        
+        tables.each( (idx, el)=> {
+            const values: Array<string> = []; 
+            $("td", el).each((i, el2)=> {
+               switch (i) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 9:
+                case 11:
+                    values.push($(el2).text())
+                    break;
+                case 12:
+                    console.log(" +++++++++++++++", $(el).text())
+               } 
+            })
+            console.log(values) 
+        })
+
         //$(tables).children("tr")//.each((i, el: any)=> {console.log("oi")})
         /*
         const rows = $(tableBody).children("tr")
