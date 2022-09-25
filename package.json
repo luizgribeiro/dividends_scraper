@@ -3,16 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-env": "docker-compose run --rm node-container",
     "build": "tsc",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/assemblyScraper.js",
+    "dev": "nodemon --watch ./src --exec 'npm run build && npm start' ./src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "got": "^12.4.1"
   }
 }
