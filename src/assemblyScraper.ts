@@ -3,10 +3,51 @@ import * as cheerio from "cheerio";
 import {page} from "./pagina";
 import fs from "fs";
 
+import {DynamoDBClient, ListTablesCommand, CreateTableCommand} from "@aws-sdk/client-dynamodb"
 
 
 (async ()=> {
     
+    
+    const client = new DynamoDBClient({ region: "us-east-1", 
+        credentials: {
+            accessKeyId: "dummy",
+            secretAccessKey: "dummy", 
+        },
+        endpoint: "http://localstack:4566"
+    })
+    const command = new ListTablesCommand({});
+
+    try {
+        const result = await client.send(command);
+        const tables = new Set(result.TableNames) 
+        if (!tables.has("dividends")) {
+            const createDividendsTable = new CreateTableCommand(
+                {TableName: "dividends", 
+                AttributeDefinitions: [
+                    {AttributeName:"tickerSymbol", AttributeType: "S"}, 
+                    {AttributeName:"exDate", AttributeType: "S"}
+                 ],
+                KeySchema: [{
+                    AttributeName: "tickerSymbol",
+                    KeyType: "HASH"
+                }, 
+                {
+                    AttributeName: "exDate",
+                    KeyType: "HASH"
+                }
+            ]}
+            )
+
+            await client.send(createDividendsTable);
+            }
+        console.log(result.TableNames)
+    } catch (error) {
+        console.error(error);
+        process.exit(1)
+    }
+    
+    /*
     const tickers = ['petr4'];
 
     for (const ticker of tickers) { 
@@ -55,5 +96,5 @@ import fs from "fs";
         console.log(dividends)
 
            }
-
+*/
 })()
