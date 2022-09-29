@@ -1,0 +1,14 @@
+service: dividends-scraper
+
+frameworkVersion: '3'
+
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+
+functions:
+  rateHandler:
+    handler: dist/handler.run
+    events:
+      - schedule: rate(1 day)
