@@ -55,5 +55,51 @@ describe("Data transforms made on dividends info array", () => {
       );
     });
   });
-  it("toDividendsObj", () => {});
+  const parseValues = (values: string[]) => {
+    const splitted = values.map((v) => v.split(" "));
+
+    return splitted.map((v) => {
+      return {
+        amount: parseFloat(v[1].replace(",", ".")),
+        type: v[5],
+      };
+    });
+  };
+  describe("parseValues", () => {
+    it("Should return an array with amount and type for the provided array of values", () => {
+      expect(parseValues(DividendSample.value)).toEqual([
+        { type: "ON", amount: 0.015 },
+        { type: "PN", amount: 0.015 },
+      ]);
+    });
+  });
+
+  const parseDividends = (dividends: Dividend[]) => {
+    return dividends.map((div) => ({
+      ...parseCompany(div.company),
+      type: "Dividendo",
+      values: parseValues(div.value),
+      approvalDate: parseDate(div.approvalDate),
+      exDate: parseDate(div.exDate),
+      paymentDate: parseDate(div.paymentDate),
+    }));
+  };
+  describe("parseDividends", () => {
+    it("Should return an array with dividends objects with all it's fields parsed", () => {
+      expect(parseDividends([DividendSample])).toEqual([
+        {
+          ticker: "ITUB",
+          companyName: "itau unibanco holding s.a.",
+          type: "Dividendo",
+          values: [
+            { type: "ON", amount: 0.015 },
+            { type: "PN", amount: 0.015 },
+          ],
+          approvalDate: new Date(2021, 11, 6),
+          exDate: new Date(2022, 9, 3),
+          paymentDate: new Date(2022, 10, 1),
+        },
+      ]);
+    });
+  });
 });
