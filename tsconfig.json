@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "declaration": true,
     "esModuleInterop": true,
@@ -14,8 +14,8 @@
     "baseUrl": "src",
     "rootDir": "./src/",
     "paths": { "@/*": ["*"] },
-    //"tsBuildInfoFile": "./dist/index.ts",
-    //"incremental": true,
+    "tsBuildInfoFile": "./dist/index.ts",
+    "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
@@ -23,5 +23,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["tests/**"]
+  "exclude": ["tests/**", "dist/**"]
 }

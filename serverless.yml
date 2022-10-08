@@ -2,38 +2,61 @@ service: dividends-scraper
 
 frameworkVersion: "3"
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  tableName: "dividends-table-${sls:stage}"
+  start:
+    docker: true
+    port: 8000
+    inMemory: true
+    migrate: true
+    seed: true
+    convertEmptyValues: true
+  stages:
+    - dev
+
 provider:
   name: aws
   runtime: nodejs16.x
-
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [UsersTable, Arn]
   environment:
-    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:GetItem
-        - dynamodb:UpdateItem
-        - dynamodb:InsertItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
-
-resources:
-  Resources:
-    NicknamesTable:
-      Type: "AWS::DynamoDB::Table"
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: firstName
-            AttributeType: S
-        KeySchema:
-          - AttributeName: firstName
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+    DIVIDENDS_TABLE: ${self:custom.tableName}
 
 functions:
   scrapeDividends:
     handler: dist/handler.run
     events:
       - schedule: rate(1 day)
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: ticker
+            AttributeType: S
+          - AttributeName: approvalDate
+            AttributeType: N
+        KeySchema:
+          - AttributeName: ticker
+            KeyType: HASH
+          - AttributeName: approvalDate
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}

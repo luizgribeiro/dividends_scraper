@@ -1,0 +1,5 @@
+2022-10-06T00:31:00.284  WARN --- [  Thread-106] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
+2022-10-06T00:31:00.284  WARN --- [  Thread-106] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
+2022-10-06T00:31:00.286  INFO --- [  Thread-106] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2022-10-06T00:31:00.286  INFO --- [  Thread-106] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2022-10-06T00:31:00.468  INFO --- [  MainThread] localstack.utils.bootstrap : Execution of "start_runtime_components" took 710.74ms

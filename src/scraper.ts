@@ -1,4 +1,4 @@
-import got from "got";
+import got from "got-cjs";
 import * as cheerio from "cheerio";
 import { page } from "./pagina";
 import fs from "fs";
@@ -13,7 +13,7 @@ export type Dividend = {
   value: string[];
 };
 
-const scrapeDividends = async (): Promise<Dividend[]> => {
+export const scrapeDividends = async (): Promise<Dividend[]> => {
   const page = await got.get("http://dividendobr.com/tabex.php");
   const $ = cheerio.load(page.body);
   const tables = $("table", "#dilist");
