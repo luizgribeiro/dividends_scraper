@@ -29,6 +29,7 @@
     "@aws-sdk/client-dynamodb": "^3.180.0",
     "cheerio": "^1.0.0-rc.12",
     "got-cjs": "^12.3.1",
-    "serverless": "^3.22.0"
+    "serverless": "^3.22.0",
+    "serverless-offline": "^11.0.3"
   }
 }
