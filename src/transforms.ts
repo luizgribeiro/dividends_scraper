@@ -1,5 +1,15 @@
 import type { Dividend } from "../src/scraper";
 
+export type ParsedDividends = {
+  ticker: string;
+  companyName: string;
+  type: string;
+  values: { amount: number; type: string }[];
+  approvalDate: Date;
+  exDate: Date;
+  paymentDate: Date;
+};
+
 export const parseDividends = (dividends: Dividend[]) => {
   return dividends.map((div) => {
     console.log(div);

@@ -2,7 +2,6 @@ import got from "got-cjs";
 import * as cheerio from "cheerio";
 import { page } from "./pagina";
 import fs from "fs";
-import { dbClientFactory } from "./infra/data/dynamo";
 
 export type Dividend = {
   company: string;
