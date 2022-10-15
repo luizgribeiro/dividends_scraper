@@ -12,8 +12,7 @@ export type ParsedDividends = {
 
 export const parseDividends = (dividends: Dividend[]) => {
   return dividends.map((div) => {
-    console.log(div);
-    return {
+    const parsed = {
       ...parseCompany(div.company),
       type: "Dividendo",
       values: parseValues(div.value),
@@ -21,6 +20,7 @@ export const parseDividends = (dividends: Dividend[]) => {
       exDate: parseDate(div.exDate),
       paymentDate: parseDate(div.paymentDate),
     };
+    return parsed;
   });
 };
 
@@ -42,23 +42,28 @@ export const parseCompany = (company: string) => {
 };
 
 export const parseDate = (localStrDate: string) => {
-  const [_, meaningFullDate] = localStrDate.split(", ");
-  const [day, month, year] = meaningFullDate.split(" de ");
+  try {
+    const [_, meaningFullDate] = localStrDate.split(", ");
+    const [day, month, year] = meaningFullDate.split(" de ");
 
-  const monthIdx = {
-    Janeiro: 0,
-    Fevereiro: 1,
-    Março: 2,
-    Abril: 3,
-    Maio: 4,
-    Junho: 5,
-    Julho: 6,
-    Agosto: 7,
-    Setembro: 8,
-    Outubro: 9,
-    Novembro: 10,
-    Dezembro: 11,
-  };
+    const monthIdx = {
+      Janeiro: 0,
+      Fevereiro: 1,
+      Março: 2,
+      Abril: 3,
+      Maio: 4,
+      Junho: 5,
+      Julho: 6,
+      Agosto: 7,
+      Setembro: 8,
+      Outubro: 9,
+      Novembro: 10,
+      Dezembro: 11,
+    };
 
-  return new Date(parseInt(year), monthIdx[month], parseInt(day));
+    return new Date(parseInt(year), monthIdx[month], parseInt(day));
+  } catch (error) {
+    console.error(`Could not parse date ${localStrDate}`);
+    return null;
+  }
 };
