@@ -1,7 +1,5 @@
 import got from "got-cjs";
 import * as cheerio from "cheerio";
-import { page } from "./pagina";
-import fs from "fs";
 
 export type Dividend = {
   company: string;

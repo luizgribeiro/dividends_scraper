@@ -8,6 +8,7 @@ export const run = async () => {
 
   const parsedDividends = parseDividends(dividends);
 
-  await storeDividends(parsedDividends);
+  const storeResult = await storeDividends(parsedDividends);
+  console.log(storeResult);
   console.log("Dividends scraper ran successfully");
 };

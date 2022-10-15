@@ -7,7 +7,7 @@ const ddbClient = new DynamoDBClient({ region: REGION });
 const marshallOptions = {
   convertEmptyValues: false,
   removeUndefinedValues: false,
-  convertClassInstanceToMap: false,
+  convertClassInstanceToMap: true,
 };
 
 const unmarshallOptions = {
