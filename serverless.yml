@@ -6,6 +6,8 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
 
+useDotenv: true
+
 custom:
   tableName: "dividends-table-${sls:stage}"
   start:
@@ -32,10 +34,17 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
+            - ses:SendEmail
+            - ses:SendRawEmail
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
           Resource:
             - Fn::GetAtt: [UsersTable, Arn]
   environment:
     DIVIDENDS_TABLE: ${self:custom.tableName}
+    FROM: ${FROM}
+    TO: ${TO}
 
 functions:
   scrapeDividends:
