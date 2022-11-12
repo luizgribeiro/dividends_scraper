@@ -64,10 +64,14 @@ resources:
             AttributeType: S
           - AttributeName: approvalDate
             AttributeType: N
+          - AttributeName: entryHash
+            AttributeType: S
         KeySchema:
           - AttributeName: ticker
             KeyType: HASH
           - AttributeName: approvalDate
+            KeyType: RANGE
+          - AttributeName: entryHash
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
