@@ -8,7 +8,7 @@ export const storeDividends = async (dividends: ParsedDividends[]) => {
     dividends.map((div) =>
       ddbDocClient.send(
         new PutCommand({
-          TableName: "dividends-table-dev",
+          TableName: "dividends-table-dev-1",
           Item: {
             ...div,
             approvalDate: div.approvalDate.getTime(),
