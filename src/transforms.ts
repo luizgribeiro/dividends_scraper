@@ -29,7 +29,7 @@ export const parseValues = (values: string[]) => {
 
   return splitted.map((v) => {
     return {
-      amount: parseFloat(v[1].replace(",", ".")),
+      amount: parseFloat(v[1].trim().replace(",", ".")),
       type: v[5],
     };
   });

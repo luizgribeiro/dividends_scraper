@@ -14,8 +14,13 @@ export const sendEmail = async (dividends: ParsedDividends[]) => {
         Body: {
           Text: {
             Charset: "UTF-8",
-            Data: `Olá! Novas informações de dividendos foram encontradas. Seguem os detalhes: 
-${dividends.map((div) => generateDividendInfo(div)).join("\n+++===+++\n")}`,
+            Data: `Olá! Novas informações de dividendos foram encontradas. Seguem os detalhes:
+
+${dividends.map((div) => generateDividendInfo(div)).join("\n+++===+++\n")}
+
+ticker,dataEx,paymentDate,amount,type
+${dividends.map((div) => generateCsVInfo(div)).join("\n")}
+            `,
           },
         },
         Subject: {
@@ -45,4 +50,17 @@ Data de pagamento: ${
 valores: 
   ${dividend.values.map((val) => `${val.amount} - ${val.type}`).join("\n")}
     `;
+};
+
+const generateCsVInfo = (dividend: ParsedDividends) => {
+  return dividend.values
+    .map(
+      (d) =>
+        `${dividend.ticker},${dividend.exDate.toLocaleDateString("pt-br")},${
+          dividend.paymentDate
+            ? dividend.paymentDate.toLocaleDateString("pt-br")
+            : "não informada"
+        },${d.amount},${d.type}`
+    )
+    .join("\n");
 };
