@@ -5,6 +5,7 @@ frameworkVersion: "3"
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-dotenv-plugin
 
 useDotenv: true
 
@@ -41,10 +42,11 @@ provider:
             - logs:PutLogEvents
           Resource:
             - Fn::GetAtt: [UsersTable, Arn]
+            - arn:aws:ses:us-east-1:496997479831:identity/*
   environment:
     DIVIDENDS_TABLE: ${self:custom.tableName}
-    FROM: ${FROM}
-    TO: ${TO}
+    FROM: ${env:FROM}
+    TO: ${env:TO}
 
 functions:
   scrapeDividends:
