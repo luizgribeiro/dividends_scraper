@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dividends_scraper
+  annotations:
+    github.com/project-slug: luizgribeiro/dividends_scraper
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guests
